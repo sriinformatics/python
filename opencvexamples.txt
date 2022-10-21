@@ -1,0 +1,1361 @@
+
+Reading an image in OpenCV using Python
+
+Prerequisite : Basics of OpenCV
+
+In this article we’ll try to open an image by using OpenCV (Open Source Computer Vision). Some external libraries such as numpy and matplotlib will also be used to get our task done.
+
+Inorder to do this, some external libraries are required to install :
+
+pip install opencv-python
+pip install numpy
+pip install matplotlib
+
+ 
+Input Image :
+
+ 
+
+
+
+
+Example #1 (Using Numpy) :
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+# Python code to reading an image using OpenCV 
+import numpy as np 
+import cv2 
+  
+# You can give path to the 
+# image as first argument 
+img = cv2.imread('cc.jpg', 0) 
+  
+# will show the image in a window 
+cv2.imshow('image', img) 
+k = cv2.waitKey(0) & 0xFF
+  
+# wait for ESC key to exit 
+if k == 27:  
+    cv2.destroyAllWindows() 
+      
+# wait for 's' key to save and exit 
+elif k == ord('s'):  
+    cv2.imwrite('messigray.png',img) 
+    cv2.destroyAllWindows() 
+
+Example #2 (Using Matplotlib):
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+# Python code to reading an image using OpenCV 
+import cv2 
+import numpy as np 
+import matplotlib.pyplot as plt 
+  
+img = cv2.imread('photo.jpg',  
+                  cv2.IMREAD_GRAYSCALE) 
+  
+cv2.imshow('image', img) 
+cv2.waitKey(0) 
+cv2.destoryAllWindows() 
+
+
+
+
+
+
+
+Python | OpenCV program to read and save an Image
+
+OpenCV (Open Source Computer Vision) is a library of programming functions mainly aimed at real-time computer vision. This is cross-platform library, it provides functions that are used in multiple languages.
+
+Coming to image processing, OpenCV enables us to perform multiple operations on image, but in order to do that we need to read an image file as input, then we can perform the desired operation and we can save it.
+
+Let’s see a simple operation to read the image file using OpenCV library and then save it.
+
+Functions used :
+
+    -> imread(Location_of_image, integer): The second parameter is an integer for changing the color of image. -1 To read image Unchanged and 0 To read image in gray scale.
+
+    -> imwrite(Name_after_save, variable_containing_read_image)
+
+    ->waitKey(0): After execution will keep the window open till a key is pressed
+
+    -> destroyAllWindow(): It will close all the windows that were opened during the program run.
+
+Below is the Python implementation:
+filter_none
+
+brightness_4
+# Python Program To Read And Save image  
+import numpy as np 
+import cv2 
+  
+# This will give error if you don't have a cv2 module 
+img = cv2.imread("G:\demo.jpg", -1) 
+  
+# img is object of cv2 and stores the image read demo.jpg 
+cv2.imwrite("outputimage.jpg", img) 
+  
+# The image is saved in folder where program is stored 
+cv2.waitKey(0) 
+  
+cv2.destroyAllWindow() 
+
+
+
+
+
+
+OpenCV Python Program to blur an image
+
+Note: This post contains codes that cannot be run using an online compiler. Please make sure that you have Python 2.7 and cv2 module installed before trying to run the program on your system.
+
+Hi everyone! I read a brilliant work by Aditya Prakash – OpenCV C++ Program to blur an image, so I decided to come up with something similar but this time in Python. So, here is a very simple program with basically the same result.
+filter_none
+
+brightness_4
+# Python Program to blur image 
+  
+# Importing cv2 module 
+import cv2  
+  
+# bat.jpg is the batman image. 
+img = cv2.imread('bat.jpg')  
+  
+# make sure that you have saved it in the same folder 
+# You can change the kernel size as you want 
+blurImg = cv2.blur(img,(10,10))  
+cv2.imshow('blurred image',blurImg) 
+  
+cv2.waitKey(0) 
+cv2.destroyAllWindows() 
+
+Now, this program above is using image blurring technique called Averaging.There are some other options available as well – Gaussian Blurring, Median Blurring, Bilateral Filtering. Let’s make a couple of additions in our program and compare the results.
+filter_none
+
+brightness_4
+# importing opencv CV2 module 
+import cv2  
+  
+# bat.jpg is the batman image. 
+img = cv2.imread('bat.jpg') 
+   
+# make sure that you have saved it in the same folder 
+# Averaging 
+# You can change the kernel size as you want 
+avging = cv2.blur(img,(10,10)) 
+   
+cv2.imshow('Averaging',avging) 
+cv2.waitKey(0) 
+  
+# Gaussian Blurring 
+# Again, you can change the kernel size 
+gausBlur = cv2.GaussianBlur(img, (5,5),0)  
+cv2.imshow('Gaussian Blurring', gausBlur) 
+cv2.waitKey(0) 
+  
+# Median blurring 
+medBlur = cv2.medianBlur(img,5) 
+cv2.imshow('Media Blurring', medBlur) 
+cv2.waitKey(0) 
+  
+# Bilateral Filtering 
+bilFilter = cv2.bilateralFilter(img,9,75,75) 
+cv2.imshow('Bilateral Filtering', bilFilter) 
+cv2.waitKey(0) 
+cv2.destroyAllWindows() 
+
+Hope you enjoyed the post! Auf Wiedersehen!
+
+
+
+
+
+Cartooning an Image using OpenCV – Python
+
+Computer Vision as you know (or even if you don’t) is a very powerful tool with immense possibilities. So, when I set up to prepare a comic of one of my friend’s college life, I soon realized that I needed something that would reduce my efforts of actually painting it but will retain the quality and I came up with the following solution.
+First let me show you the results:
+
+Cartooning an Image using OpenCV (python)Original Image
+
+ 
+
+Cartooning an Image using OpenCV (python)1
+
+Cartooned Version
+
+1
+
+Edges obtained from the image (Adaptive Threshold result)
+
+Let’s see the code:
+
+class Cartoonizer:
+    """Cartoonizer effect
+        A class that applies a cartoon effect to an image.
+        The class uses a bilateral filter and adaptive thresholding to create
+        a cartoon effect.
+    """
+    def __init__(self):
+        pass
+
+    def render(self, img_rgb):
+        img_rgb = cv2.imread(img_rgb)
+        img_rgb = cv2.resize(img_rgb, (1366,768))
+        numDownSamples = 2       # number of downscaling steps
+        numBilateralFilters = 50  # number of bilateral filtering steps
+
+        # -- STEP 1 --
+        # downsample image using Gaussian pyramid
+        img_color = img_rgb
+        for _ in xrange(numDownSamples):
+            img_color = cv2.pyrDown(img_color)
+        #cv2.imshow("downcolor",img_color)
+        #cv2.waitKey(0)
+        # repeatedly apply small bilateral filter instead of applying
+        # one large filter
+        for _ in xrange(numBilateralFilters):
+            img_color = cv2.bilateralFilter(img_color, 9, 9, 7)
+        #cv2.imshow("bilateral filter",img_color)
+        #cv2.waitKey(0)
+        # upsample image to original size
+        for _ in xrange(numDownSamples):
+            img_color = cv2.pyrUp(img_color)
+        #cv2.imshow("upscaling",img_color)
+        #cv2.waitKey(0)
+        # -- STEPS 2 and 3 --
+        # convert to grayscale and apply median blur
+        img_gray = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2GRAY)
+        img_blur = cv2.medianBlur(img_gray, 3)
+        #cv2.imshow("grayscale+median blur",img_color)
+        #cv2.waitKey(0)
+        # -- STEP 4 --
+        # detect and enhance edges
+        img_edge = cv2.adaptiveThreshold(img_blur, 255,
+                                         cv2.ADAPTIVE_THRESH_MEAN_C,
+                                         cv2.THRESH_BINARY, 9, 2)
+        #cv2.imshow("edge",img_edge)
+        #cv2.waitKey(0)
+
+        # -- STEP 5 --
+        # convert back to color so that it can be bit-ANDed with color image
+        (x,y,z) = img_color.shape
+        img_edge = cv2.resize(img_edge,(y,x)) 
+        img_edge = cv2.cvtColor(img_edge, cv2.COLOR_GRAY2RGB)
+        cv2.imwrite("edge.png",img_edge)
+        #cv2.imshow("step 5", img_edge)
+        #cv2.waitKey(0)
+        #img_edge = cv2.resize(img_edge,(i for i in img_color.shape[:2]))
+        #print img_edge.shape, img_color.shape
+        return cv2.bitwise_and(img_color, img_edge)
+
+tmp_canvas = Cartoonizer()
+file_name = "Screenshot.png" #File_name will come here
+res = tmp_canvas.render(file_name)
+cv2.imwrite("Cartoon version.jpg", res)
+cv2.imshow("Cartoon version", res)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+
+
+
+
+
+Image Translation using OpenCV | Python
+
+Translation refers to the rectilinear shift of an object i.e. an image from one location to another. If we know the amount of shift in horizontal and the vertical direction, say (tx, ty) then we can make a transformation matrix e.g. \begin{bmatrix} 1 & 0 & tx \\ 0 & 1 & ty \end{bmatrix}
+where tx denotes the shift along the x-axis and ty denotes shift along the y-axis i.e. the number of pixels by which we need to shift about in that direction.
+Now, we can use the cv2.wrapAffine() function to implement these translations. This function requires a 2×3 array. The numpy array should be of float type.
+
+Below is the Python code for Image Translation:
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+image = cv2.imread('C:\\gfg\\tomatoes.jpg') 
+  
+# Store height and width of the image 
+height, width = image.shape[:2] 
+  
+quarter_height, quarter_width = height / 4, width / 4
+  
+T = np.float32([[1, 0, quarter_width], [0, 1, quarter_height]]) 
+  
+# We use warpAffine to transform 
+# the image using the matrix, T 
+img_translation = cv2.warpAffine(image, T, (width, height)) 
+  
+cv2.imshow("Originalimage", image) 
+cv2.imshow('Translation', img_translation) 
+cv2.waitKey() 
+  
+cv2.destroyAllWindows() 
+
+Output:
+
+Advantages/application of image translation are:
+
+    Hiding a part of the image
+    Cropping an image
+    Shifting an image
+    Animating an image using image translations in loop.
+
+
+
+
+
+
+Python | Image blurring using OpenCV
+
+Image Blurring refers to making the image less clear or distinct. It is done with the help of various low pass filter kernels.
+
+Advantages of blurring:
+
+    It helps in Noise removal. As noise is considered as high pass signal so by the application of low pass filter kernel we restrict noise.
+    It helps in smoothing the image.
+    Low intensity edges are removed.
+    It helps in hiding the details when necessary. For e.g. in many cases police deliberately want to hide the face of the victim, in such cases blurring is required.
+
+Important types of blurring:
+
+    Gaussian Blurring:Gaussian blur is the result of blurring an image by a Gaussian function. It is a widely used effect in graphics software, typically to reduce image noise and reduce detail. It is also used as a preprocessing stage before applying our machine learning or deep learning models.
+    E.g. of a Gaussian kernel(3×3)
+    1/16 \quad \begin{bmatrix} 1 & 2 & 1 \\ 2 & 4 & 2\\ 1 & 2 & 1 \\ \end{bmatrix}
+    Median Blur: The Median Filter is a non-linear digital filtering technique, often used to remove noise from an image or signal. Median filtering is very widely used in digital image processing because, under certain conditions, it preserves edges while removing noise. It is one of the best algorithms to remove Salt and pepper noise.
+    Bilateral Blur: A bilateral filter is a non-linear, edge-preserving, and noise-reducing smoothing filter for images. It replaces the intensity of each pixel with a weighted average of intensity values from nearby pixels. This weight can be based on a Gaussian distribution. Thus, sharp edges are preserved while discarding the weak ones.
+
+Below is the Python code:
+filter_none
+
+brightness_4
+# importing libraries 
+import cv2 
+import numpy as np 
+  
+image = cv2.imread('C://Geeksforgeeks//image_processing//fruits.jpg') 
+  
+cv2.imshow('Original Image', image) 
+cv2.waitKey(0) 
+  
+# Gaussian Blur 
+Gaussian = cv2.GaussianBlur(image, (7, 7), 0) 
+cv2.imshow('Gaussian Blurring', Gaussian) 
+cv2.waitKey(0) 
+  
+# Median Blur 
+median = cv2.medianBlur(image, 5) 
+cv2.imshow('Median Blurring', median) 
+cv2.waitKey(0) 
+  
+  
+# Bilateral Blur 
+bilateral = cv2.bilateralFilter(image, 9, 75, 75) 
+cv2.imshow('Bilateral Blurring', bilateral) 
+cv2.waitKey(0) 
+cv2.destroyAllWindows() 
+
+Output:
+
+
+
+
+
+
+Image Resizing using OpenCV | Python
+
+Image resizing refers to scaling of images. Scaling comes handy in many image processing as well as machine learning applications. It helps in reducing the number of pixels from an image and that has several advantages e.g. It can reduce the time of training of a neural network as more is the number of pixels in an image more is the number of input nodes that in turn increases the complexity of the model.
+
+It also helps in zooming in images. Many times we need to resize the image i.e. either shirk it or scale up to meet the size requirements. OpenCV provides us several interpolation methods for resizing an image.
+
+Choice of Interpolation Method for Resizing –
+
+    cv2.INTER_AREA: This is used when we need need to shrink an image.
+    cv2.INTER_CUBIC: This is slow but more efficient.
+    cv2.INTER_LINEAR: This is primarily used when zooming is required. This is the default interpolation technique in OenCV.
+
+Below is the code for resizing.
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+import matplotlib.pyplot as plt % matplotlib qt 
+# To display in external window 
+  
+image = cv2.imread("C://gfg//tomatoes.jpg", 1) 
+# Loading the image 
+  
+half = cv2.resize(image, (0, 0), fx = 0.1, fy = 0.1) 
+bigger = cv2.resize(image, (1050, 1610)) 
+  
+stretch_near = cv2.resize(image, (780, 540),  
+               interpolation = cv2.INTER_NEAREST) 
+  
+  
+Titles =["Original", "Half", "Bigger", "Interpolation Nearest"] 
+images =[image, half, bigger, stretch_near] 
+count = 4
+  
+for i in range(count): 
+    plt.subplot(2, 2, i + 1) 
+    plt.title(Titles[i]) 
+    plt.imshow(images[i]) 
+  
+plt.show() 
+
+Output:
+
+Note: One thing to keep in mind while using the cv2.resize() function is that the tuple passed for determining the size of new image ((1050, 1610) in this case) follows the order (width, height) unlike as expected (height, width).
+
+
+
+
+
+Image Registration using OpenCV | Python
+
+
+Image registration is a digital image processing technique which helps us align different images of the same scene. For instance, one may click the picture of a book from various angles. Below are a few instances that show the diversity of camera angle.
+
+Now, we may want to “align” a particular image to the same angle as a reference image. In the images above, one may consider the first image to be an “ideal” cover photo, while the second and third images do not serve well for book cover photo purposes. The image registration algorithm helps us align the second and third pictures to the same plane as the first one.
+
+How does image registration work?
+Alignment can be looked at as a simple coordinate transform. The algorithm works as follows:
+
+    Convert both images to grayscale.
+    Match features from the image to be aligned, to the reference image and store the coordinates of the corresponding keypoints. Keypoints are simply the selected few points which are used to compute the transform (generally points that stand out), and descriptors are histograms of the image gradients to characterize the appearance of a keypoint. In this post, we use ORB (Oriented FAST and Rotated BRIEF) implementation in the OpenCV library, which provides us with both keypoints as well as their associated descriptors.
+    Match the keypoints between the two images. In this post, we use BFMatcher, which is a brute force matcher. BFMatcher.match() retrieves the best match, while BFMatcher.knnMatch() retrieves top K matches, where K is specified by the user.
+    Pick the top matches, and remove the noisy matches.
+    Find the homomorphy transform.
+    Apply this transform to the original unaligned image to get the output image.
+
+Applications of Image Registration –
+Some of the useful applications of image registration include:
+
+    Stiching various scenes (which may or may not have the same camera alignment) together to form a continuous panaromic shot.
+    Aligning camera images of documents to a standard alignment to create realistic scanned documents.
+    Aligning medical images for better observation and analysis.
+
+Below is the code for image registration. We have aligned the second image with reference to the third image.
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+# Open the image files. 
+img1_color = cv2.imread("align.jpg")  # Image to be aligned. 
+img2_color = cv2.imread("ref.jpg")    # Reference image. 
+  
+# Convert to grayscale. 
+img1 = cv2.cvtColor(img1_color, cv2.COLOR_BGR2GRAY) 
+img2 = cv2.cvtColor(img2_color, cv2.COLOR_BGR2GRAY) 
+height, width = img2.shape 
+  
+# Create ORB detector with 5000 features. 
+orb_detector = cv2.ORB_create(5000) 
+  
+# Find keypoints and descriptors. 
+# The first arg is the image, second arg is the mask 
+#  (which is not reqiured in this case). 
+kp1, d1 = orb_detector.detectAndCompute(img1, None) 
+kp2, d2 = orb_detector.detectAndCompute(img2, None) 
+  
+# Match features between the two images. 
+# We create a Brute Force matcher with  
+# Hamming distance as measurement mode. 
+matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck = True) 
+  
+# Match the two sets of descriptors. 
+matches = matcher.match(d1, d2) 
+  
+# Sort matches on the basis of their Hamming distance. 
+matches.sort(key = lambda x: x.distance) 
+  
+# Take the top 90 % matches forward. 
+matches = matches[:int(len(matches)*90)] 
+no_of_matches = len(matches) 
+  
+# Define empty matrices of shape no_of_matches * 2. 
+p1 = np.zeros((no_of_matches, 2)) 
+p2 = np.zeros((no_of_matches, 2)) 
+  
+for i in range(len(matches)): 
+  p1[i, :] = kp1[matches[i].queryIdx].pt 
+  p2[i, :] = kp2[matches[i].trainIdx].pt 
+  
+# Find the homography matrix. 
+homography, mask = cv2.findHomography(p1, p2, cv2.RANSAC) 
+  
+# Use this matrix to transform the 
+# colored image wrt the reference image. 
+transformed_img = cv2.warpPerspective(img1_color, 
+                    homography, (width, height)) 
+  
+# Save the output. 
+cv2.imwrite('output.jpg', transformed_img) 
+
+
+
+
+
+
+Image Pyramid using OpenCV | Python
+
+Image Pyramids are one of the most beautiful concept of image processing.Normally, we work with images with default resolution but many times we need to change the resolution (lower it) or resize the original image in that case image pyramids comes handy.
+
+The pyrUp() function increases the size to double of its original size and pyrDown() function decreases the size to half. If we keep the original image as a base image and go on applying pyrDown function on it and keep the images in a vertical stack, it will look like a pyramid. The same is true for upscaling the original image by pyrUp function.
+
+Once we scale down and if we rescale it to the original size, we lose some information and the resolution of the new image is much lower than the original one.
+
+Below is an example of Image Pyramiding –
+filter_none
+
+brightness_4
+import cv2 
+import matplotlib.pyplot as plt 
+  
+img = cv2.imread("images/input.jpg") 
+  
+layer = img.copy() 
+  
+for i in range(4): 
+    plt.subplot(2, 2, i + 1) 
+  
+    # using pyrDown() function 
+    layer = cv2.pyrDown(layer) 
+  
+    plt.imshow(layer) 
+    cv2.imshow("str(i)", layer) 
+    cv2.waitKey(0) 
+      
+  
+cv2.destroyAllWindows() 
+
+Output:
+
+Advantages of Image pyramids:
+
+    Lowering of resolution
+    Getting various sizes of image
+    Image Blending
+    Edge detection
+
+
+
+
+
+Python | Detect corner of an image using OpenCV
+
+OpenCV (Open Source Computer Vision) is a computer vision library that contains various functions to perform operations on Images or videos. OpenCV library can be used to perform multiple operations on videos.
+
+Let’s see how to detect the corner in the image.
+
+cv2.goodFeaturesToTrack() method finds N strongest corners in the image by Shi-Tomasi method. Note that the image should be a grayscale image. Specify the number of corners you want to find and the quality level (which is a value between 0-1). It denotes the minimum quality of corner below which everyone is rejected. Then provide the minimum Euclidean distance between corners detected.
+
+    Syntax : cv2.goodFeaturesToTrack(image, maxCorners, qualityLevel, minDistance[, corners[, mask[, blockSize[, useHarrisDetector[, k]]]]])
+
+Image before corner detection:
+filter_none
+
+brightness_4
+# import the required library 
+import numpy as np 
+import cv2 
+from matplotlib import pyplot as plt 
+  
+  
+# read the image 
+img = cv2.imread('corner1.png') 
+  
+# convert image to gray scale image 
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
+  
+# detect corners with the goodFeaturesToTrack function. 
+corners = cv2.goodFeaturesToTrack(gray, 27, 0.01, 10) 
+corners = np.int0(corners) 
+  
+# we iterate through each corner,  
+# making a circle at each point that we think is a corner. 
+for i in corners: 
+    x, y = i.ravel() 
+    cv2.circle(img, (x, y), 3, 255, -1) 
+  
+plt.imshow(img), plt.show() 
+
+Image after corner detection –
+
+
+
+
+
+Find Circles and Ellipses in an Image using OpenCV | Python
+
+To identify circles, ellipses or in general any shape in which the pixels are connected we use the SimpleBlobDetector() function of OpenCV. In non-technical terms, a blob is understood as a thick liquid drop. Here, we are going to call all shapes as a blob. Our task is to detect and recognize whether the blob is a circle or not.
+
+OpenCV provides a convenient way to detect blobs and filter them based on different characteristics. There are various different parameters that control the identification process and the results. The important parameters used for this project are:
+
+    Filter by Area – This is to avoid any identification of any small dots present in the image that can be wrongly detected as a circle.
+    Filter by Circularity – This helps us to identify, shapes that are more similar to a circle.
+
+    Circularity =  4*pi*Area/(perimeter)^2 . 
+
+    A true circle has circularity of 1, a square has a circularity near 78%.
+    Filter by Convexity – Concavity in general, destroys the circularity.More is the convexity, the closer it is to a close circle.
+    Filter by Inertia – Objecs similar to a circle has larger inertial.E.g. for a circle, this value is 1, for an ellipse it is between 0 and 1, and for a line it is 0. To filter by inertia ratio, set filterByInertia = 1, and set, 0 <= minInertiaRatio <= 1 and maxInertiaRatio (<=1 ) appropriately.
+
+Below is the code for identifying Circles:
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+# Load image 
+image = cv2.imread('C://gfg//images//blobs.jpg', 0) 
+  
+# Set our filtering parameters 
+# Initialize parameter settiing using cv2.SimpleBlobDetector 
+params = cv2.SimpleBlobDetector_Params() 
+  
+# Set Area filtering parameters 
+params.filterByArea = True
+params.minArea = 100
+  
+# Set Circularity filtering parameters 
+params.filterByCircularity = True 
+params.minCircularity = 0.9
+  
+# Set Convexity filtering parameters 
+params.filterByConvexity = True
+params.minConvexity = 0.2
+      
+# Set inertia filtering parameters 
+params.filterByInertia = True
+params.minInertiaRatio = 0.01
+  
+# Create a detector with the parameters 
+detector = cv2.SimpleBlobDetector_create(params) 
+      
+# Detect blobs 
+keypoints = detector.detect(image) 
+  
+# Draw blobs on our image as red circles 
+blank = np.zeros((1, 1))  
+blobs = cv2.drawKeypoints(image, keypoints, blank, (0, 0, 255), 
+                          cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS) 
+  
+number_of_blobs = len(keypoints) 
+text = "Number of Circular Blobs: " + str(len(keypoints)) 
+cv2.putText(blobs, text, (20, 550), 
+            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 100, 255), 2) 
+  
+# Show blobs 
+cv2.imshow("Filtering Circular Blobs Only", blobs) 
+cv2.waitKey(0) 
+cv2.destroyAllWindows() 
+
+Output:
+
+
+
+
+
+
+OpenCV Python Program to analyze an image using Histogram
+
+In this article, image analysis using Matplotlib and OpenCV is discussed. Let’s first understand how to experiment image data with various styles and how to represent with Histogram.
+Prerequisites:
+
+    OpenCV
+    matplotlib
+
+Importing image data
+
+import matplotlib.pyplot as plt #importing matplotlib
+
+The image should be used in a PNG file as matplotlib supports only PNG images. Here, It’s a 24-bit RGB PNG image (8 bits for each of R, G, B) used in this example. Each inner list represents a pixel. Here, with an RGB image, there are 3 values. For RGB images, matplotlib supports float32 and uint8 data types.
+
+img = plt.imread('flower.png') #reads image data
+
+c5
+In Matplotlib, this is performed using the imshow() function. Here we have grabbed the plot object.
+
+All about Histogram
+
+Histogram is considered as a graph or plot which is related to frequency of pixels in an Gray Scale Image
+with pixel values (ranging from 0 to 255). Grayscale image is an image in which the value of each pixel is a single sample, that is, it carries only intensity information where pixel value varies from 0 to 255. Images of this sort, also known as black-and-white, are composed exclusively of shades of gray, varying from black at the weakest intensity to white at the strongest where Pixel can be considered as a every point in an image.
+How GrayScale Image looks like:
+images
+It quantifies the number of pixels for each intensity value considered. Before going through Histogram, lets have a rough idea from this given example.
+histogram_sample
+Here, we get intuition about contrast, brightness, intensity distribution etc of that image. As we can see the image and its histogram which is drawn for grayscale image, not color image.
+Left region of histogram shows the amount of darker pixels in image and right region shows the amount of brighter pixels.
+
+Histogram creation using numpy array
+
+To create a histogram of our image data, we use the hist() function.
+
+plt.hist(n_img.ravel(), bins=256, range=(0.0, 1.0), fc='k', ec='k') #calculating histogram
+
+c1
+In our histogram, it looks like there’s distribution of intensity all over image Black and White pixels as grayscale image.
+
+From the histogram, we can conclude that dark region is more than brighter region.
+
+Now, we will deal with an image which  consist of intensity distribution of pixels where pixel value varies. First, we need to calculate histogram using OpenCV in-built function.
+
+Histogram Calculation
+
+Here, we use cv2.calcHist()(in-built function in OpenCV) to find the histogram.
+
+cv2.calcHist(images, channels, mask, histSize, ranges[, hist[, accumulate]])
+
+images : it is the source image of type uint8 or float32 represented as “[img]”.
+channels : it is the index of channel for which we calculate histogram. For grayscale image, its value is [0] and
+color image, you can pass [0], [1] or [2] to calculate histogram of blue, green or red channel respectively.
+mask : mask image. To find histogram of full image, it is given as “None”.
+histSize : this represents our BIN count. For full scale, we pass [256].
+ranges : this is our RANGE. Normally, it is [0,256].
+
+For example:
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+# load an image in grayscale mode 
+img = cv2.imread('ex.jpg',0) 
+  
+# calculate frequency of pixels in range 0-255 
+histg = cv2.calcHist([img],[0],None,[256],[0,256])  
+
+Then, we need to plot histogram to show the characteristics of an image.
+
+Plotting Histograms
+
+Analysis using Matplotlib:
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+# importing required libraries of opencv 
+import cv2 
+  
+# importing library for plotting 
+from matplotlib import pyplot as plt 
+  
+# reads an input image 
+img = cv2.imread('ex.jpg',0) 
+  
+# find frequency of pixels in range 0-255 
+histr = cv2.calcHist([img],[0],None,[256],[0,256]) 
+  
+# show the plotting graph of an image 
+plt.plot(histr) 
+plt.show() 
+
+Input:
+nature2
+nature3
+nature4
+Output:
+n2
+n3
+n4
+Illustration shows that each number of pixels of an image lie upon range of 0 to 255. In the second example, it directly finds the histogram and plot it. We need not use calcHist(). See the code below:
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+import cv2 
+from matplotlib import pyplot as plt 
+img = cv2.imread('ex.jpg',0) 
+  
+# alternative way to find histogram of an image 
+plt.hist(img.ravel(),256,[0,256]) 
+plt.show() 
+
+Output:
+f1
+
+Thus, we conclude that image can be represented as a Histogram to conceive the idea of intensity distribution over an image and further its tranquility.
+
+References:
+
+    http://docs.opencv.org/2.4/doc/tutorials/imgproc/table_of_content_imgproc/table_of_content_imgproc.html#table-of-content-imgproc
+    http://www.cambridgeincolour.com/tutorials/histograms1.htm
+
+This article is contributed by Afzal Ansari. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+
+Image Inpainting using OpenCV
+
+Image inpainting is the process of removing damage, such as noises, strokes or text, on images. It is particularly useful in the restoration of old photographs which might have scratched edges or ink spots on them. These can be digitally removed through this method.
+
+Image inpainting works by replacing the damaged pixels with pixels similar to the neighboring ones, therefore, making them inconspicuous and helping them blend well with the background. Consider the image below.
+
+The image has some marks to the right. To inpaint this image, we require a mask, which is essentially a black image with white marks on it to indicate the regions which need to be corrected. In this case, the mask is created manually on GIMP.
+
+Inpainting Algorithms –
+
+OpenCV implements two inpainting algorithms:
+
+    “An Image Inpainting Technique Based on the Fast Marching Method”, Alexandru Telea, 2004:
+    This is based on Fast Marching Method (FMM). Looking at the region to be inpainted, the algorithm first starts with the boundary pixels and then goes to the pixels inside the boundary. It replaces each pixel to be inpainted with a weighted sum of the pixels in the background, with more weight given to nearer pixels and boundary pixels.
+    “Navier-Stokes, Fluid Dynamics, and Image and Video Inpainting”, Bertalmio, Marcelo, Andrea L. Bertozzi, and Guillermo Sapiro, 2001:
+    This algorithm is inspired by partial differential equations. Starting from the edges (known regions) towards the unknown regions, it propagates isophote lines (lines that join same-intensity points). Finally, variance in an area is minimized to fill colors.
+
+FMM can be invoked by using cv2.INPAINT_TELEA, while Navier-Stokes can be invoked using cv2.INPAINT_NS. The Python code below inpaints the image of the cat using Navier-Stokes.
+filter_none
+
+brightness_4
+import numpy as np 
+import cv2 
+  
+# Open the image. 
+img = cv2.imread('cat_damaged.png') 
+  
+# Load the mask. 
+mask = cv2.imread('cat_mask.png', 0) 
+  
+# Inpaint. 
+dst = cv2.inpaint(img, mask, 3, cv2.INPAINT_NS) 
+  
+# Write the output. 
+cv2.imwrite('cat_inpainted.png', dst) 
+
+Output:
+
+
+
+
+
+Python Program to detect the edges of an image using OpenCV | Sobel edge detection method
+
+The following program detects the edges of frames in a livestream video content. The code will only compile in linux environment. Make sure that openCV is installed in your system before you run the program.
+
+Steps to download the requirements below:
+
+    Run the following command on your terminal to install it from the Ubuntu or Debian respository.
+
+    sudo apt-get install libopencv-dev python-opencv
+
+    OR In order to download OpenCV from the official site run the following command:
+
+    bash install-opencv.sh
+
+    on your terminal.
+    Type your sudo password and you will have installed OpenCV.
+
+Principle behind Edge Detection 
+
+Edge detection involves mathematical methods to find points in an image where the brightness of pixel intensities changes distinctly.
+
+    The first thing we are going to do is find the gradient of the grayscale image, allowing us to find edge-like regions in the x and y direction. The gradient is a multi-variable generalization of the derivative. While a derivative can be defined on functions of a single variable, for functions of several variables, the gradient takes its place.
+    The gradient is a vector-valued function, as opposed to a derivative, which is scalar-valued. Like the derivative, the gradient represents the slope of the tangent of the graph of the function. More precisely, the gradient points in the direction of the greatest rate of increase of the function, and its magnitude is the slope of the graph in that direction.
+
+Note: In computer vision, transitioning from black-to-white is considered a positive slope, whereas a transition from white-to-black is a negative slope.
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+# Python program to  Edge detection  
+# using OpenCV in Python 
+# using Sobel edge detection  
+# and laplacian method 
+import cv2 
+import numpy as np 
+  
+#Capture livestream video content from camera 0 
+cap = cv2.VideoCapture(0) 
+  
+while(1): 
+  
+    # Take each frame 
+    _, frame = cap.read() 
+      
+    # Convert to HSV for simpler calculations 
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) 
+      
+    # Calcution of Sobelx 
+    sobelx = cv2.Sobel(frame,cv2.CV_64F,1,0,ksize=5) 
+      
+    # Calculation of Sobely 
+    sobely = cv2.Sobel(frame,cv2.CV_64F,0,1,ksize=5) 
+      
+    # Calculation of Laplacian 
+    laplacian = cv2.Laplacian(frame,cv2.CV_64F) 
+      
+    cv2.imshow('sobelx',sobelx) 
+    cv2.imshow('sobely',sobely) 
+    cv2.imshow('laplacian',laplacian) 
+    k = cv2.waitKey(5) & 0xFF
+    if k == 27: 
+        break
+  
+cv2.destroyAllWindows() 
+  
+#release the frame 
+cap.release() 
+
+Calculation of the derivative of an image
+
+A digital image is represented by a matrix that stores the RGB/BGR/HSV(whichever color space the image belongs to) value of each pixel in rows and columns.
+The derivative of a matrix is calculated by an operator called the Laplacian. In order to calculate a Laplacian, you will need to calculate first two derivatives, called derivatives of Sobel, each of which takes into account the gradient variations in a certain direction: one horizontal, the other vertical.
+
+    Horizontal Sobel derivative (Sobel x): It is obtained through the convolution of the image with a matrix called kernel which has always odd size. The kernel with size 3 is the simplest case.
+    Vertical Sobel derivative (Sobel y): It is obtained through the convolution of the image with a matrix called kernel which has always odd size. The kernel with size 3 is the simplest case.
+    Convolution is calculated by the following method: Image represents the original image matrix and filter is the kernel matrix.
+
+    Convolving an image with a kernel
+    Factor = 11 – 2- 2- 2- 2- 2 = 3
+    Offset = 0
+
+    Weighted Sum = 124*0 + 19*(-2) + 110*(-2) + 53*11 + 44*(-2) + 19*0 + 60*(-2) + 100*0 = 117
+    O[4,2] = (117/3) + 0 = 39
+
+    So in the end to get the Laplacian (approximation) we will need to combine the two previous results (Sobelx and Sobely) and store it in laplacian.
+
+Parameters:
+
+    cv2.Sobel(): The function cv2.Sobel(frame,cv2.CV_64F,1,0,ksize=5) can be written as
+
+    cv2.Sobel(original_image,ddepth,xorder,yorder,kernelsize)
+
+    where the first parameter is the original image, the second parameter is the depth of the destination image. When ddepth=-1/CV_64F, the destination image will have the same depth as the source. The third parameter is the order of the derivative x. The fourth parameter is the order of the derivative y. While calculating Sobelx we will set xorder as 1 and yorder as 0 whereas while calculating Sobely, the case will be reversed. The last parameter is the size of the extended Sobel kernel; it must be 1, 3, 5, or 7.
+    cv2.Laplacian: In the function
+
+    cv2.Laplacian(frame,cv2.CV_64F)
+
+    the first parameter is the original image and the second parameter is the depth of the destination image.When depth=-1/CV_64F, the destination image will have the same depth as the source.
+
+Edge Detection Applications
+
+    Reduce unnecessary information in an image while preserving the structure of image.
+    Extract important features of image like curves, corners and lines.
+    Recognizes objects, boundaries and segmentation.
+    Plays a major role in computer vision and recognition
+
+Related Article: Edge Detection using Canny edge detection method
+This article is contributed by Pratima Upadhyay. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+
+
+Image Processing in Python (Scaling, Rotating, Shifting and Edge Detection)
+
+Taking pictures is just a matter of click so why playing around with it should be more than few lines of code. Seems not a case with python. There are quite a few good libraries available in python to process images such as open-cv, Pillow etc. In this article we’ll be using Open CV, an open source library for computer vision. It has C++, python and java interfaces available. It’s highly optimized (written in C/C++) for real time applications in the domain of computer vision.
+
+Let’s start with a simple one i.e Scaling an image.
+
+Scaling an Image :-
+
+Scaling operation increases/reduces size of an image.
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+FILE_NAME = 'volleyball.jpg'
+try: 
+    # Read image from disk. 
+    img = cv2.imread(FILE_NAME) 
+  
+    # Get number of pixel horizontally and vertically. 
+    (height, width) = img.shape[:2] 
+  
+    # Specify the size of image along with interploation methods. 
+    # cv2.INTER_AREA is used for shrinking, whereas cv2.INTER_CUBIC 
+    # is used for zooming. 
+    res = cv2.resize(img, (int(width / 2), int(height / 2)), interpolation = cv2.INTER_CUBIC) 
+  
+    # Write image back to disk. 
+    cv2.imwrite('result.jpg', res) 
+  
+except IOError: 
+    print ('Error while reading files !!!') 
+
+Output:
+
+Rotating an image :-
+Images can be rotated to any degree clockwise or otherwise. We just need to define rotation matrix listing rotation point, degree of rotation and the scaling factor.
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+FILE_NAME = 'volleyball.jpg'
+try: 
+    # Read image from the disk. 
+    img = cv2.imread(FILE_NAME) 
+  
+    # Shape of image in terms of pixels. 
+    (rows, cols) = img.shape[:2] 
+  
+    # getRotationMatrix2D creates a matrix needed for transformation. 
+    # We want matrix for rotation w.r.t center to 45 degree without scaling. 
+    M = cv2.getRotationMatrix2D((cols / 2, rows / 2), 45, 1) 
+    res = cv2.warpAffine(img, M, (cols, rows)) 
+  
+    # Write image back to disk. 
+    cv2.imwrite('result.jpg', res) 
+except IOError: 
+    print ('Error while reading files !!!') 
+
+Output:
+
+Translating an Image :-
+Translating an image means shifting it within a given frame of reference.
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+FILE_NAME = 'volleyball.jpg'
+# Create translation matrix. 
+# If the shift is (x, y) then matrix would be 
+# M = [1 0 x] 
+#     [0 1 y] 
+# Let's shift by (100, 50). 
+M = np.float32([[1, 0, 100], [0, 1, 50]]) 
+  
+try: 
+  
+    # Read image from disk. 
+    img = cv2.imread(FILE_NAME) 
+    (rows, cols) = img.shape[:2] 
+  
+    # warpAffine does appropriate shifting given the 
+    # translation matrix. 
+    res = cv2.warpAffine(img, M, (cols, rows)) 
+  
+    # Write image back to disk. 
+    cv2.imwrite('result.jpg', res) 
+  
+except IOError: 
+    print ('Error while reading files !!!') 
+
+Output:
+
+Edge detection in an Image :-
+The process of image detection involves detecting sharp edges in the image. This edge detection is essential in context of image recognition or object localization/detection. There are several algorithms for detecting edges due to it’s wide applicability. We’ll be using one such algorithm known as Canny Edge Detection.
+filter_none
+
+brightness_4
+import cv2 
+import numpy as np 
+  
+FILE_NAME = 'volleyball.jpg'
+try: 
+    # Read image from disk. 
+    img = cv2.imread(FILE_NAME) 
+  
+    # Canny edge detection. 
+    edges = cv2.Canny(img, 100, 200) 
+  
+    # Write image back to disk. 
+    cv2.imwrite('result.jpg', edges) 
+except IOError: 
+    print ('Error while reading files !!!') 
+
+Output:
+
+Please refer Github for more details.
+
+
+
+
+
+
+Opencv Python program for Face Detection
+
+
+The objective of the program given is to detect object of interest(face) in real time and to keep tracking of the same object.This is a simple example of how to detect face in Python. You can try to use training samples of any other object of your choice to be detected by training the classifier on required objects.
+
+Here is the steps to download the requirements below.
+
+Steps:
+
+    Download Python 2.7.x version, numpy and Opencv 2.7.x version.Check if your Windows either 32 bit or 64 bit is compatible and install accordingly.
+    Make sure that numpy is running in your python then try to install opencv.
+    Put the haarcascade_eye.xml & haarcascade_frontalface_default.xml files in the same folder(links given in below code).
+
+Implementation
+filter_none
+
+edit
+
+play_arrow
+
+brightness_4
+# OpenCV program to detect face in real time 
+# import libraries of python OpenCV  
+# where its functionality resides 
+import cv2  
+  
+# load the required trained XML classifiers 
+# https://github.com/Itseez/opencv/blob/master/ 
+# data/haarcascades/haarcascade_frontalface_default.xml 
+# Trained XML classifiers describes some features of some 
+# object we want to detect a cascade function is trained 
+# from a lot of positive(faces) and negative(non-faces) 
+# images. 
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml') 
+  
+# https://github.com/Itseez/opencv/blob/master 
+# /data/haarcascades/haarcascade_eye.xml 
+# Trained XML file for detecting eyes 
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')  
+  
+# capture frames from a camera 
+cap = cv2.VideoCapture(0) 
+  
+# loop runs if capturing has been initialized. 
+while 1:  
+  
+    # reads frames from a camera 
+    ret, img = cap.read()  
+  
+    # convert to gray scale of each frames 
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) 
+  
+    # Detects faces of different sizes in the input image 
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5) 
+  
+    for (x,y,w,h) in faces: 
+        # To draw a rectangle in a face  
+        cv2.rectangle(img,(x,y),(x+w,y+h),(255,255,0),2)  
+        roi_gray = gray[y:y+h, x:x+w] 
+        roi_color = img[y:y+h, x:x+w] 
+  
+        # Detects eyes of different sizes in the input image 
+        eyes = eye_cascade.detectMultiScale(roi_gray)  
+  
+        #To draw a rectangle in eyes 
+        for (ex,ey,ew,eh) in eyes: 
+            cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,127,255),2) 
+  
+    # Display an image in a window 
+    cv2.imshow('img',img) 
+  
+    # Wait for Esc key to stop 
+    k = cv2.waitKey(30) & 0xff
+    if k == 27: 
+        break
+  
+# Close the window 
+cap.release() 
+  
+# De-allocate any associated memory usage 
+cv2.destroyAllWindows()  
+
+Output:
+
+output
+
+
+
+
+
+OpenCV Python program for Vehicle detection in a Video frame
+
+Face Detection Basics
+
+The objective of the program given is to detect object of interest(Car) in video frames and to keep tracking the same object. This is an example of how to detect vehicles in Python.
+
+Why Vehicle Detection?
+
+    The startling losses both in human lives and finance caused by vehicle accidents.
+    Detecting vehicles in images acquired from a moving platform is a challenging problem.
+
+Steps to download the requirements below:
+
+    Download Python 2.7.x version, numpy and OpenCV 2.4.x version.Check if your Windows either 32 bit or 64 bit is compatible and install accordingly.
+
+    sudo apt-get install python
+    pip install numpy
+
+        install OpenCV from here
+        Make sure that numpy is running in your python then try to install opencv.
+        Put the cars.xml file in the same folder. Save this as .xml file.
+        Download this video from here as input
+    filter_none
+
+    edit
+
+    play_arrow
+
+    brightness_4
+    # OpenCV Python program to detect cars in video frame 
+    # import libraries of python OpenCV  
+    import cv2 
+      
+    # capture frames from a video 
+    cap = cv2.VideoCapture('video.avi') 
+      
+    # Trained XML classifiers describes some features of some object we want to detect 
+    car_cascade = cv2.CascadeClassifier('cars.xml') 
+      
+    # loop runs if capturing has been initialized. 
+    while True: 
+        # reads frames from a video 
+        ret, frames = cap.read() 
+          
+        # convert to gray scale of each frames 
+        gray = cv2.cvtColor(frames, cv2.COLOR_BGR2GRAY) 
+          
+      
+        # Detects cars of different sizes in the input image 
+        cars = car_cascade.detectMultiScale(gray, 1.1, 1) 
+          
+        # To draw a rectangle in each cars 
+        for (x,y,w,h) in cars: 
+            cv2.rectangle(frames,(x,y),(x+w,y+h),(0,0,255),2) 
+      
+       # Display frames in a window  
+       cv2.imshow('video2', frames) 
+          
+        # Wait for Esc key to stop 
+        if cv2.waitKey(33) == 27: 
+            break
+      
+    # De-allocate any associated memory usage 
+    cv2.destroyAllWindows() 
+
+    References:
+        Youtube
+        OpenCV
+        Google Groups
+
+    This article is contributed by Afzal Ansari. If you like GeeksforGeeks and would like to contribute, you can also write an article using contribute.geeksforgeeks.org or mail your article to contribute@geeksforgeeks.org. See your article appearing on the GeeksforGeeks main page and help other Geeks.
+
+    Please write comments if you find anything incorrect, or you want to share more information about the topic discussed above.
+
+
+
+
+
+Python | Smile detection using OpenCV
+
+Emotion detectors are used in many industries, one being the media industry where it is important for the companies to determine the public reaction to their products. In this article, we are going to build a smile detector using OpenCV which takes in live feed from webcam. The smile/happiness detector that we are going to implement would be a raw one, there exist many better ways to implement it.
+
+Step # 1: First of all, we need to import the OpenCV library.
+
+import cv2
+
+Step #2: Include the desired haar-cascades.
+
+Haar-cascades are classifiers that are used to detect features (of face in this case) by superimposing predefined patterns over face segments and are used as XML files. In our model, we shall use face, eye and smile haar-cascades, which after downloading need to be placed in the working directory.
+
+All the required Haar-cascades can be found here.
+filter_none
+
+brightness_4
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml') 
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml') 
+smile_cascade = cv2.CascadeClassifier('haarcascade_smile.xml') 
+
+Step #3:
+In this step, we are going to build main function which would be performing the smile detection.
+
+    The live feed coming from the webcam/video device is processed frame by frame. We process the gray scale image, as haar-cascades work better on them.
+    To detect the face, we use:
+    filter_none
+
+    brightness_4
+    faces  = face_cascade.detectMultiScale(gray, 1.3, 5) 
+
+    where 1.3 is the scaling factor, and 5 is the number of nearest neighbors. We can adjust these factors as per our convenience/results to improve our detector.
+    Now for each subsequent face detected, we need to check for smiles.
+    filter_none
+
+    brightness_4
+    def detect(gray, frame): 
+        faces = face_cascade.detectMultiScale(gray, 1.3, 5) 
+        for (x, y, w, h) in faces: 
+            cv2.rectangle(frame, (x, y), ((x + w), (y + h)), (255, 0, 0), 2) 
+            roi_gray = gray[y:y + h, x:x + w] 
+            roi_color = frame[y:y + h, x:x + w] 
+            smiles = smile_cascade.detectMultiScale(roi_gray, 1.8, 20) 
+      
+            for (sx, sy, sw, sh) in smiles: 
+                cv2.rectangle(roi_color, (sx, sy), ((sx + sw), (sy + sh)), (0, 0, 255), 2) 
+        return frame 
+
+Explanations –
+
+    The face data is stored as tuples of coordinates. Here, x and y define the coordinate of the upper-left corner of the face frame, w and h define the width and height of the frame.
+    The cv2.rectangle function takes in the arguments frame, upper-left coordinates of the face, lower right coordinates, the RGB code for the rectangle (that would contain within it the detected face) and the thickness of the rectangle.
+    The roi_gray defines the region of interest of the face and roi_color does the same for the original frame.
+    In line 7, we apply smile detection using the cascade. 
+
+Step #4:
+We define main function in this step. After execution, the function can be terminated by pressing the “q” key.
+filter_none
+
+brightness_4
+video_capture = cv2.VideoCapture(0) 
+while True: 
+   # Captures video_capture frame by frame 
+    _, frame = video_capture.read()  
+  
+    # To capture image in monochrome                     
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)   
+      
+    # calls the detect() function     
+    canvas = detect(gray, frame)    
+  
+    # Displays the result on camera feed                      
+    cv2.imshow('Video', canvas)  
+  
+    # The control breaks once q key is pressed                         
+    if cv2.waitKey(1) & 0xff == ord('q'):                
+        break
+  
+# Release the capture once all the processing is done. 
+video_capture.release()                                  
+cv2.destroyAllWindows() 
+
+Output:
+
+
+
